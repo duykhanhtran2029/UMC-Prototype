@@ -1,0 +1,112 @@
+[
+    {
+        "full_name": "Cal Baudone",
+        "age": 18,
+        "height": 244,
+        "weight": 58,
+        "temperature": 36,
+        "fastest_speed": 2.57772,
+        "avg_speed": 1.88034,
+        "avg_acceleration": 0.05778,
+        "fastest_acceleration": 0.19079
+    },
+    {
+        "full_name": "Katha Bazely",
+        "age": 18,
+        "height": 187,
+        "weight": 48,
+        "temperature": 36,
+        "fastest_speed": 2.93992,
+        "avg_speed": 1.16763,
+        "avg_acceleration": 0.05372,
+        "fastest_acceleration": 0.18023
+    },
+    {
+        "full_name": "Antonina Danelut",
+        "age": 19,
+        "height": 247,
+        "weight": 61,
+        "temperature": 38,
+        "fastest_speed": 2.50897,
+        "avg_speed": 1.09232,
+        "avg_acceleration": 0.08724,
+        "fastest_acceleration": 0.15443
+    },
+    {
+        "full_name": "Alyssa Redhills",
+        "age": 32,
+        "height": 217,
+        "weight": 70,
+        "temperature": 37,
+        "fastest_speed": 2.74385,
+        "avg_speed": 2.33381,
+        "avg_acceleration": 0.0875,
+        "fastest_acceleration": 0.10447
+    },
+    {
+        "full_name": "Trev Spearett",
+        "age": 20,
+        "height": 211,
+        "weight": 69,
+        "temperature": 38,
+        "fastest_speed": 2.92546,
+        "avg_speed": 1.00556,
+        "avg_acceleration": 0.09421,
+        "fastest_acceleration": 0.17283
+    },
+    {
+        "full_name": "Sophey Buckberry",
+        "age": 23,
+        "height": 230,
+        "weight": 54,
+        "temperature": 38,
+        "fastest_speed": 2.52166,
+        "avg_speed": 2.32491,
+        "avg_acceleration": 0.05547,
+        "fastest_acceleration": 0.10785
+    },
+    {
+        "full_name": "Merla Hugenin",
+        "age": 32,
+        "height": 223,
+        "weight": 76,
+        "temperature": 36,
+        "fastest_speed": 2.69122,
+        "avg_speed": 1.45113,
+        "avg_acceleration": 0.06492,
+        "fastest_acceleration": 0.18389
+    },
+    {
+        "full_name": "Devlin MacGiolla",
+        "age": 27,
+        "height": 201,
+        "weight": 67,
+        "temperature": 36,
+        "fastest_speed": 2.80247,
+        "avg_speed": 1.54626,
+        "avg_acceleration": 0.07073,
+        "fastest_acceleration": 0.18395
+    },
+    {
+        "full_name": "Othilie Hawkslee",
+        "age": 26,
+        "height": 179,
+        "weight": 61,
+        "temperature": 38,
+        "fastest_speed": 2.88773,
+        "avg_speed": 2.37246,
+        "avg_acceleration": 0.09687,
+        "fastest_acceleration": 0.10597
+    },
+    {
+        "full_name": "Dulsea Erie",
+        "age": 27,
+        "height": 238,
+        "weight": 77,
+        "temperature": 36,
+        "fastest_speed": 2.85851,
+        "avg_speed": 2.38343,
+        "avg_acceleration": 0.07867,
+        "fastest_acceleration": 0.12456
+    }
+]
