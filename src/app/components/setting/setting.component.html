@@ -1,1 +1,25 @@
-<p>setting works!</p>
+<h1>Unit Settings</h1>
+
+<table class="styled-table">
+    <tbody>
+        <ng-container *ngIf="settings">
+            <ng-container *ngFor="let unitGroup of settings">
+                <ng-container *ngIf="unitGroup">
+                    <tr>
+                        <td class="active_cell">{{unitGroup.UnitGroupName}}</td>
+                        <td>
+                            <select (change) = "onSelectChange($event, unitGroup.UnitGroupName)">
+                                <option *ngFor="let unit of unitGroup.Units" 
+                                [value] = "unit.Name + ' ' + unit.DefaultSymbol"
+                                [selected]="unit.Name === unitGroup.DisplayUnit">
+                                    {{unit.Name}} ({{unit.DefaultSymbol}})
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </tbody>
+</table>
+<button (click) = "close()">Save</button>

@@ -2,9 +2,42 @@
 <div class="toolbar" role="banner">
     <span>{{title}}</span>
     <div class="spacer"></div>
-    <nav>
-        <a routerLink="/athletes" routerLinkActive="active">Athletes</a>
-        <a routerLink="/settings" routerLinkActive="active">Settings</a>
-    </nav>
+    <button (click)="openSettings()">Settings</button>
+</div>
+<div class="content" role="main">
+    <h1>Athletes Statistic</h1>
+
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age ({{settings[0].DisplaySymbol}})</th>
+                <th>Height ({{settings[1].DisplaySymbol}})</th>
+                <th>Weight ({{settings[2].DisplaySymbol}})</th>
+                <th>Temperature ({{settings[3].DisplaySymbol}})</th>
+                <th>Fastest Speed ({{settings[4].DisplaySymbol}})</th>
+                <th>Avg. Speed ({{settings[4].DisplaySymbol}})</th>
+                <th>Fastest Acceleration ({{settings[5].DisplaySymbol}})</th>
+                <th>Avg. Acceleration ({{settings[5].DisplaySymbol}})</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let athlete of athletes; index as i">
+                <tr>
+                    <td>{{i + 1}}</td>
+                    <td class="active_cell">{{athlete.full_name}}</td>
+                    <td>{{athlete.age}}</td>
+                    <td>{{athlete.height}}</td>
+                    <td>{{athlete.weight}}</td>
+                    <td>{{athlete.temperature}}</td>
+                    <td>{{athlete.fastest_speed}}</td>
+                    <td>{{athlete.avg_speed}}</td>
+                    <td>{{athlete.fastest_acceleration}}</td>
+                    <td>{{athlete.avg_acceleration}}</td>
+                </tr> 
+            </ng-container>          
+        </tbody>
+    </table>
 </div>
 <router-outlet></router-outlet>
