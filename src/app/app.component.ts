@@ -4,6 +4,7 @@ import { SettingComponent } from './components/setting/setting.component';
 import * as Converters from 'test-um';
 import { ISetting } from './interfaces/ISetting';
 import { IAthlete } from './interfaces/IAthlete';
+import { IDisplay } from './interfaces/IDisplay';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -376,6 +377,8 @@ export class AppComponent implements OnInit {
     DisplayUnit: "MeterPerSecondSquared",
     DisplaySymbol: "m/s²"
   }];
+  display: IDisplay[];
+  selectedlanguage = 'Default';
   dialogRef: MatDialogRef<SettingComponent>;
   constructor(private dialog: MatDialog) {
 
@@ -385,19 +388,49 @@ export class AppComponent implements OnInit {
     this.settings.forEach(e => {
       e.Units = Converters.getUnitGroup(e.UnitGroupName)?.Units;
     });
+
+    this.setDisplay()
+    //Converters.getLocalUnitGroup('Length','Russian')?.getLocalUnitSymbol('Year');
     //this.convertingData();
+  }
+
+  setDisplay() {
+    if (this.selectedlanguage === 'Default')
+      this.display = this.settings.map(s => {
+        let d: IDisplay = {
+          UnitName: s.DisplayUnit,
+          UnitSymbol: s.DisplaySymbol
+        }
+        return d;
+      });
+    else
+      this.display = this.settings.map(s => {
+        const lu = Converters.getLocalUnitGroup(s.UnitGroupName, this.selectedlanguage)?.getLocalUnit(s.DisplayUnit);
+        if (lu === undefined)
+          return {
+            UnitName: '',
+            UnitSymbol: ''
+          };
+        let d: IDisplay = {
+          UnitName: lu.LocalName === '' ? s.DisplayUnit : lu.LocalName ,
+          UnitSymbol: lu.LocalSymbol === '' ? s.DisplaySymbol : lu.LocalSymbol
+        }
+        return d;
+      });
   }
 
   openSettings() {
     this.dialogRef = this.dialog.open(SettingComponent, {
-      data: this.settings,
+      data: { language: this.selectedlanguage, settings: this.settings },
       disableClose: true,
     });
     this.dialogRef.afterClosed().subscribe(data => {
       if (data) {
-        this.settings = data;
-        console.log(this.settings);
+        this.settings = data.settings;
+        this.selectedlanguage = data.language;
+        console.log(this.selectedlanguage);
         this.convertingData();
+        this.setDisplay();
       }
     })
   }

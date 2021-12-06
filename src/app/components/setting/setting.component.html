@@ -2,8 +2,17 @@
 
 <table class="styled-table">
     <tbody>
-        <ng-container *ngIf="settings">
-            <ng-container *ngFor="let unitGroup of settings">
+        <ng-container *ngIf="display">
+            <tr>
+                <td class="active_cell">Language</td>
+                <td>
+                    <select (change) = "onLanguageChange($event)">
+                        <option [selected]="language === 'Default'">Default</option>
+                        <option [selected]="language === 'Russian'">Russian</option>
+                    </select>
+                </td>
+            </tr>
+            <ng-container *ngFor="let unitGroup of display">
                 <ng-container *ngIf="unitGroup">
                     <tr>
                         <td class="active_cell">{{unitGroup.UnitGroupName}}</td>
