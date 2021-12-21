@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SettingComponent } from './components/setting/setting.component';
-import * as Converters from 'test-um';
-import { ISetting } from './interfaces/ISetting';
+import * as Converters from 'test-um/build/index';
 import { IAthlete } from './interfaces/IAthlete';
-import { IDisplay } from './interfaces/IDisplay';
+import IUnit from 'test-um/build/interfaces/IUnit';
+import IUnitGroup from 'test-um/build/interfaces/IUnitGroup';
+import { UnitGroup } from 'test-um/build/index';
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,8 +15,7 @@ import { IDisplay } from './interfaces/IDisplay';
 })
 
 export class AppComponent implements OnInit {
-  title = 'External Application';
-  raw_athletes: IAthlete[] = [{
+  originalAthletes: IAthlete[] = [{
     full_name: "Stacee MacNab",
     age: 26,
     height: 179,
@@ -164,38 +166,7 @@ export class AppComponent implements OnInit {
     avg_acceleration: 0.06949,
     fastest_acceleration: 0.19936
   }];
-  raw_settings: ISetting[] = [{
-    UnitGroupName: "Time",
-    Units: [],
-    DisplayUnit: "Year",
-    DisplaySymbol: "years",
-  }, {
-    UnitGroupName: "Length",
-    Units: [],
-    DisplayUnit: "Meter",
-    DisplaySymbol: "m"
-  }, {
-    UnitGroupName: "Mass",
-    Units: [],
-    DisplayUnit: "Kilogram",
-    DisplaySymbol: "kg"
-  }, {
-    UnitGroupName: "Temperature",
-    Units: [],
-    DisplayUnit: "Celsius",
-    DisplaySymbol: "°C"
-  }, {
-    UnitGroupName: "Speed",
-    Units: [],
-    DisplayUnit: "MeterPerSecond",
-    DisplaySymbol: "m/s"
-  }, {
-    UnitGroupName: "Acceleration",
-    Units: [],
-    DisplayUnit: "MeterPerSecondSquared",
-    DisplaySymbol: "m/s²"
-  }]
-  athletes: IAthlete[] = [{
+  displayAthletes: IAthlete[] = [{
     full_name: "Stacee MacNab",
     age: 26,
     height: 179,
@@ -346,148 +317,95 @@ export class AppComponent implements OnInit {
     avg_acceleration: 0.06949,
     fastest_acceleration: 0.19936
   }];
-  settings: ISetting[] = [{
-    UnitGroupName: "Time",
-    Units: [],
-    DisplayUnit: "Year",
-    DisplaySymbol: "years",
-  }, {
-    UnitGroupName: "Length",
-    Units: [],
-    DisplayUnit: "Meter",
-    DisplaySymbol: "m"
-  }, {
-    UnitGroupName: "Mass",
-    Units: [],
-    DisplayUnit: "Kilogram",
-    DisplaySymbol: "kg"
-  }, {
-    UnitGroupName: "Temperature",
-    Units: [],
-    DisplayUnit: "Celsius",
-    DisplaySymbol: "°C"
-  }, {
-    UnitGroupName: "Speed",
-    Units: [],
-    DisplayUnit: "MeterPerSecond",
-    DisplaySymbol: "m/s"
-  }, {
-    UnitGroupName: "Acceleration",
-    Units: [],
-    DisplayUnit: "MeterPerSecondSquared",
-    DisplaySymbol: "m/s²"
-  }];
-  display: IDisplay[];
-  selectedlanguage = 'Default';
-  dialogRef: MatDialogRef<SettingComponent>;
-  constructor(private dialog: MatDialog) {
 
-  }
+  neededUnitGroup = ['Time', 'Length', 'Mass', 'Temperature', 'Speed', 'Acceleration'];
+  defaultUnit = ['Year', 'Meter', 'Kilogram', 'Celsius', 'Meter Per Second', 'Meter Per Second Squared'];
+
+  unitGroups: UnitGroup[];
+  settings: IUnit[];
+
+  selectedlanguage = 'Default';
+
+  dialogRef: MatDialogRef<SettingComponent>;
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.settings.forEach(e => {
-      e.Units = Converters.getUnitGroup(e.UnitGroupName)?.Units;
+    this.unitGroups = new Array();
+    this.settings = new Array();
+
+    this.neededUnitGroup.forEach((unitGroupName, index) => {
+      const tmpUnitGroup = Converters.getUnitGroup(unitGroupName);
+      this.unitGroups.push(tmpUnitGroup);
+      this.settings.push(tmpUnitGroup.getUnit(this.defaultUnit[index]));
     });
-
-    this.setDisplay()
-    //Converters.getLocalUnitGroup('Length','Russian')?.getLocalUnitSymbol('Year');
-    //this.convertingData();
   }
 
-  setDisplay() {
-    if (this.selectedlanguage === 'Default')
-      this.display = this.settings.map(s => {
-        let d: IDisplay = {
-          UnitName: s.DisplayUnit,
-          UnitSymbol: s.DisplaySymbol
-        }
-        return d;
-      });
-    else
-      this.display = this.settings.map(s => {
-        const lu = Converters.getLocalUnitGroup(s.UnitGroupName, this.selectedlanguage)?.getLocalUnit(s.DisplayUnit);
-        if (lu === undefined)
-          return {
-            UnitName: '',
-            UnitSymbol: ''
-          };
-        let d: IDisplay = {
-          UnitName: lu.LocalName === '' ? s.DisplayUnit : lu.LocalName ,
-          UnitSymbol: lu.LocalSymbol === '' ? s.DisplaySymbol : lu.LocalSymbol
-        }
-        return d;
-      });
-  }
 
   openSettings() {
     this.dialogRef = this.dialog.open(SettingComponent, {
-      data: { language: this.selectedlanguage, settings: this.settings },
+      data: { language: this.selectedlanguage, settings: this.settings, unitGroups: this.unitGroups },
       disableClose: true,
     });
     this.dialogRef.afterClosed().subscribe(data => {
       if (data) {
         this.settings = data.settings;
         this.selectedlanguage = data.language;
-        console.log(this.selectedlanguage);
         this.convertingData();
-        this.setDisplay();
       }
     })
   }
 
   convertingData() {
-    this.settings.forEach((s, i) => {
-      switch (s.UnitGroupName) {
-        case 'Time':
-          this.athletes.forEach((a, ai) => {
-            const val = Converters.getUnitGroup(s.UnitGroupName)?.converting(this.raw_athletes[ai].age, this.raw_settings[i].DisplayUnit, s.DisplayUnit);
-            if (val)
-              a.age = val;
-          });
-          break;
-        case 'Length':
-          this.athletes.forEach((a, ai) => {
-            const val = Converters.getUnitGroup(s.UnitGroupName)?.converting(this.raw_athletes[ai].height, this.raw_settings[i].DisplayUnit, s.DisplayUnit);
-            if (val)
-              a.height = val;
-          });
-          break;
-        case 'Mass':
-          this.athletes.forEach((a, ai) => {
-            const val = Converters.getUnitGroup(s.UnitGroupName)?.converting(this.raw_athletes[ai].weight, this.raw_settings[i].DisplayUnit, s.DisplayUnit);
-            if (val)
-              a.weight = val;
-          });
-          break;
-        case 'Temperature':
-          this.athletes.forEach((a, ai) => {
-            const val = Converters.getUnitGroup(s.UnitGroupName)?.converting(this.raw_athletes[ai].temperature, this.raw_settings[i].DisplayUnit, s.DisplayUnit);
-            if (val)
-              a.temperature = val;
-          });
-          break;
-        case 'Speed':
-          this.athletes.forEach((a, ai) => {
-            const val1 = Converters.getUnitGroup(s.UnitGroupName)?.converting(this.raw_athletes[ai].fastest_speed, this.raw_settings[i].DisplayUnit, s.DisplayUnit);
-            const val2 = Converters.getUnitGroup(s.UnitGroupName)?.converting(this.raw_athletes[ai].avg_speed, this.raw_settings[i].DisplayUnit, s.DisplayUnit);
-            if (val1 !== undefined && val2 !== undefined) {
-              a.fastest_speed = val1;
-              a.avg_speed = val2;
-            }
-          });
-          break;
-        case 'Acceleration':
-          this.athletes.forEach((a, ai) => {
-            const val1 = Converters.getUnitGroup(s.UnitGroupName)?.converting(this.raw_athletes[ai].fastest_acceleration, this.raw_settings[i].DisplayUnit, s.DisplayUnit);
-            const val2 = Converters.getUnitGroup(s.UnitGroupName)?.converting(this.raw_athletes[ai].avg_acceleration, this.raw_settings[i].DisplayUnit, s.DisplayUnit);
-            if (val1 !== undefined && val2 !== undefined) {
-              a.fastest_acceleration = val1;
-              a.avg_acceleration = val2;
-            }
-          });
-          break;
-      }
-    })
 
+    //#region custom Unit Group
+    const accelerationUnits: IUnit[] = [
+      {
+        Name: "MeterPerSecondSquared",
+        Symbol: "m/s²",
+        PluralName: "MetersPerSecondSquared",
+        DisplaySymbol: "",
+        DisplayName: "",
+        DisplayPluralName: "",
+        IsDefaultUnit: true,
+        Denominator: 1,
+        Numerator: 1,
+        Adder: 0
+      },
+      {
+        Name: "FootPerSecondSquared",
+        Symbol: "ft/s²",
+        PluralName: "FeetPerSecondSquared",
+        DisplaySymbol: "",
+        DisplayName: "",
+        DisplayPluralName: "",
+        IsDefaultUnit: false,
+        Denominator: 1250,
+        Numerator: 381,
+        Adder: 0
+      }
+    ]
+    const accelerationUnitGroup = new Converters.UnitGroup('Acceleration', accelerationUnits);  
+    //#endregion
+    this.displayAthletes.forEach((a, ai) => {
+      //Time
+      a.age = this.unitGroups[0].convert(this.originalAthletes[ai].age,this.defaultUnit[0],this.settings[0].Name);
+
+      //Length
+      a.height = this.unitGroups[1].convert(this.originalAthletes[ai].height, this.defaultUnit[1], this.settings[1].Name);
+
+      //Mass
+      a.weight = this.unitGroups[2].convert(this.originalAthletes[ai].weight, this.defaultUnit[2], this.settings[2].Name);
+
+      //Temperature
+      a.temperature = this.unitGroups[3].convert(this.originalAthletes[ai].temperature, this.defaultUnit[3], this.settings[3].Name);
+
+      //Speed
+      a.fastest_speed = this.unitGroups[4].convert(this.originalAthletes[ai].fastest_speed, this.defaultUnit[4], this.settings[4].Name);
+      a.avg_speed = this.unitGroups[4].convert(this.originalAthletes[ai].avg_speed, this.defaultUnit[4], this.settings[4].Name);
+
+      //Acceleration
+      a.fastest_acceleration = this.unitGroups[5].convert(this.originalAthletes[ai].fastest_acceleration, this.defaultUnit[5], this.settings[5].Name);
+      a.avg_acceleration = this.unitGroups[5].convert(this.originalAthletes[ai].avg_acceleration, this.defaultUnit[5], this.settings[5].Name);
+    });
   }
 }

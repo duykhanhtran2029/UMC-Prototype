@@ -1,6 +1,6 @@
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
-    <span>{{title}}</span>
+    <span>External Application</span>
     <div class="spacer"></div>
     <button (click)="openSettings()">Settings</button>
 </div>
@@ -12,18 +12,18 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Age ({{display[0].UnitSymbol}})</th>
-                <th>Height ({{display[1].UnitSymbol}})</th>
-                <th>Weight ({{display[2].UnitSymbol}})</th>
-                <th>Temperature ({{display[3].UnitSymbol}})</th>
-                <th>Fastest Speed ({{display[4].UnitSymbol}})</th>
-                <th>Avg. Speed ({{display[4].UnitSymbol}})</th>
-                <th>Fastest Acceleration ({{display[5].UnitSymbol}})</th>
-                <th>Avg. Acceleration ({{display[5].UnitSymbol}})</th>
+                <th>Age ({{settings[0].DisplaySymbol}})</th>
+                <th>Height ({{settings[1].DisplaySymbol}})</th>
+                <th>Weight ({{settings[2].DisplaySymbol}})</th>
+                <th>Temperature ({{settings[3].DisplaySymbol}})</th>
+                <th>Fastest Speed ({{settings[4].DisplaySymbol}})</th>
+                <th>Avg. Speed ({{settings[4].DisplaySymbol}})</th>
+                <th>Fastest Acceleration ({{settings[5].DisplaySymbol}})</th>
+                <th>Avg. Acceleration ({{settings[5].DisplaySymbol}})</th>
             </tr>
         </thead>
         <tbody>
-            <ng-container *ngFor="let athlete of athletes; index as i">
+            <ng-container *ngFor="let athlete of displayAthletes; index as i">
                 <tr>
                     <td>{{i + 1}}</td>
                     <td class="active_cell">{{athlete.full_name}}</td>

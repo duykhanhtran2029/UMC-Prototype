@@ -2,31 +2,31 @@
 
 <table class="styled-table">
     <tbody>
-        <ng-container *ngIf="display">
-            <tr>
-                <td class="active_cell">Language</td>
-                <td>
-                    <select (change) = "onLanguageChange($event)">
-                        <option [selected]="language === 'Default'">Default</option>
-                        <option [selected]="language === 'Russian'">Russian</option>
-                    </select>
-                </td>
-            </tr>
-            <ng-container *ngFor="let unitGroup of display">
-                <ng-container *ngIf="unitGroup">
-                    <tr>
-                        <td class="active_cell">{{unitGroup.UnitGroupName}}</td>
-                        <td>
-                            <select (change) = "onSelectChange($event, unitGroup.UnitGroupName)">
-                                <option *ngFor="let unit of unitGroup.Units" 
-                                [value] = "unit.Name + ' ' + unit.DefaultSymbol"
-                                [selected]="unit.Name === unitGroup.DisplayUnit">
-                                    {{unit.Name}} ({{unit.DefaultSymbol}})
-                                </option>
-                            </select>
-                        </td>
-                    </tr>
-                </ng-container>
+        <tr>
+            <td class="active_cell">Language</td>
+            <td>
+                <select (change)="onLanguageChange($event)">
+                    <option [selected]="language === 'Default'">Default</option>
+                    <option [selected]="language === 'Russian'">Russian</option>
+                    <option [selected]="language === 'Vietnamese'">Vietnamese</option>
+                    <option [selected]="language === 'Japanese'">Japanese</option>
+                </select>
+            </td>
+        </tr>
+        <ng-container *ngFor="let unitGroup of unitGroups; let i = index">
+            <ng-container *ngIf="unitGroup">
+                <tr>
+                    <td class="active_cell">{{unitGroup.DisplayName}}</td>
+                    <td>
+                        <select (change)="onSelectChange($event, i)">
+                            <option *ngFor="let unit of unitGroup.Units" 
+                                [value]="unit.Name + ' ' + unit.Symbol"
+                                [selected]="unit.Name === settings[i].Name">
+                                {{unit.DisplayName}} ({{unit.DisplaySymbol}})
+                            </option>
+                        </select>
+                    </td>
+                </tr>
             </ng-container>
         </ng-container>
     </tbody>
