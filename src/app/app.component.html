@@ -2,7 +2,9 @@
 <div class="toolbar" role="banner">
     <span>External Application</span>
     <div class="spacer"></div>
-    <button (click)="openSettings()">Settings</button>
+    <button mat-icon-button (click)="openSettings()" onclick="this.blur()">
+        <mat-icon>settings</mat-icon>
+    </button>
 </div>
 <div class="content" role="main">
     <h1>Athletes Statistic</h1>
@@ -12,14 +14,14 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Age ({{settings[0].DisplaySymbol}})</th>
-                <th>Height ({{settings[1].DisplaySymbol}})</th>
-                <th>Weight ({{settings[2].DisplaySymbol}})</th>
-                <th>Temperature ({{settings[3].DisplaySymbol}})</th>
-                <th>Fastest Speed ({{settings[4].DisplaySymbol}})</th>
-                <th>Avg. Speed ({{settings[4].DisplaySymbol}})</th>
-                <th>Fastest Acceleration ({{settings[5].DisplaySymbol}})</th>
-                <th>Avg. Acceleration ({{settings[5].DisplaySymbol}})</th>
+                <th>Age ({{setting.mappers[0].DisplayUnit.DisplaySymbol}})</th>
+                <th>Height ({{setting.mappers[1].DisplayUnit.DisplaySymbol}})</th>
+                <th>Weight ({{setting.mappers[2].DisplayUnit.DisplaySymbol}})</th>
+                <th>Temperature ({{setting.mappers[3].DisplayUnit.DisplaySymbol}})</th>
+                <th>Fastest Speed ({{setting.mappers[4].DisplayUnit.DisplaySymbol}})</th>
+                <th>Avg. Speed ({{setting.mappers[4].DisplayUnit.DisplaySymbol}})</th>
+                <th>Fastest Acceleration ({{setting.mappers[5].DisplayUnit.DisplaySymbol}})</th>
+                <th>Avg. Acceleration ({{setting.mappers[5].DisplayUnit.DisplaySymbol}})</th>
             </tr>
         </thead>
         <tbody>
