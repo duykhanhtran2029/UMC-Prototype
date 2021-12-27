@@ -1,41 +1,37 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as Local from 'test-um/build/index';
-import { UnitGroup } from 'test-um/build/index';
-import IUnit from 'test-um/build/interfaces/IUnit';
+import { ISetting } from 'src/app/interfaces/ISetting';
+import * as _ from 'lodash';
 @Component({
   selector: 'app-setting',
   templateUrl: './setting.component.html',
   styleUrls: ['./setting.component.scss']
 })
-export class SettingComponent implements OnInit {
-  settings: IUnit[];
-  language: string;
-  unitGroups: UnitGroup[];
+export class SettingComponent implements OnInit {;
+  settings: ISetting;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { language: string, settings: IUnit[], unitGroups: UnitGroup[]},
+    @Inject(MAT_DIALOG_DATA) public data: { settings: ISetting },
     private dialogRef: MatDialogRef<SettingComponent>
   ) { }
 
   ngOnInit(): void {
-    this.settings = this.data.settings;
-    this.language = this.data.language;
-    this.unitGroups = this.data.unitGroups;
+    this.settings = _.cloneDeep(this.data.settings);
   }
 
   onSelectChange(event: Event, index: number)
   {
-    const value = (event.target as HTMLInputElement).value.split(' ');
-    this.settings[index] = this.unitGroups[index].getUnit(value[0]);
+    this.settings.mappers[index].DisplayUnit = 
+      this.settings.mappers[index].UnitGroup
+        .getUnit((event.target as HTMLInputElement).value);
   }
 
   onLanguageChange(event: Event)
   {
-    this.language = (event.target as HTMLInputElement).value;
-    this.unitGroups.forEach(ug => ug.localize(this.language));
+    this.settings.displayLanguage = (event.target as HTMLInputElement).value;
+    this.settings.mappers.forEach(m => m.UnitGroup.localize(this.settings.displayLanguage));
   }
 
   close(){
-    this.dialogRef.close({settings: this.settings, language: this.language});
+    this.dialogRef.close({ settings: this.settings});
   }
 }
