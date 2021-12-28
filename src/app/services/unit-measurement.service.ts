@@ -15,7 +15,7 @@ export class UnitMeasurementService {
       ouput.forEach(element => {
         mapper.ConvertedProperties.forEach(property => {
           (element as any)[property] = 
-            mapper.UnitGroup.convert((element as any)[property], mapper.DefaultUnitName, mapper.DisplayUnit.Name);
+            mapper.UnitGroup.convert((element as any)[property], mapper.DefaultUnitName, mapper.DisplayUnit.Name).toFixed(mapper.RoundingDecimals);
         });
       });
     });

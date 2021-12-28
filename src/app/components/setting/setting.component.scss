@@ -2,47 +2,52 @@ h1 {
     text-align: center;
     color: #009879;
     margin-top: -8px;
+    margin-bottom: 0px;
 }
-.styled-table {
-    margin: auto;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 400px;
-    font-weight: bold;
-    thead{
-        tr {
-            background-color: #009879;
-            color: #ffffff;
-            text-align: left;
-        }
-    }
-    th, td {
-        padding: 12px 15px;
-        min-width: 80px;
-        &:last-child {
-            padding: 12px 0px; 
-        }
-        select {
-            border-color: #009879;
-            outline: none;
-            width: 240px;
-            min-height: 32px;
-            padding: 5px 10px;
-        }
-    }
-    tbody {
-        tr {
-            padding: 12px 15px;
-            &:last-of-type {
-                border-bottom: 2px solid #009879;
+.container {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 600px;
+    .styled-table {
+        margin: auto;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 300px;
+        font-weight: bold;
+        tbody {
+            tr {
+                padding: 0px 15px;
+                &:last-of-type {
+                    border-bottom: 2px solid #009879;
+                }
+                .active_cell {
+                    font-weight: bold;
+                    color: #009879;
+                }
+                td {
+                    padding: 0px 15px;
+                    min-width: 80px;
+                    &:last-child {
+                        padding: 5px 0px;
+                    }
+                    select {
+                        border-color: #009879;
+                        outline: none;
+                        width: 240px;
+                        min-height: 32px;
+                        padding: 5px 10px;
+                    }
+                    input {
+                        border: 1px solid #009879;
+                        outline: none;
+                        max-height: 32px;
+                        max-width: 75px;
+                        padding: 5px 15px;
+                    }
+                }
             }
-            .active_cell {
-                font-weight: bold;
-                color: #009879;
-            }
         }
     }
-
 }
 button {
     padding: 5px 20px;
@@ -56,9 +61,10 @@ button {
     border-radius: 4px;
     color: #fff;
     border: none;
-    &:visited, &:link {
+    &:visited,
+    &:link {
         color: #fff;
-    };
+    }
     &:hover {
         color: #fff;
         background-color: #009879;

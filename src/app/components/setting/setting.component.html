@@ -1,32 +1,41 @@
 <h1>Unit Settings</h1>
-
-<table class="styled-table">
-    <tbody>
-        <tr>
-            <td class="active_cell">Language</td>
-            <td>
-                <select (change)="onLanguageChange($event)">
-                    <option [selected]="settings.displayLanguage === 'Default'">Default</option>
-                    <option [selected]="settings.displayLanguage === 'German'">German</option>
-                </select>
-            </td>
-        </tr>
-        <ng-container *ngFor="let mapper of settings.mappers; let i = index">
-            <ng-container *ngIf="mapper">
-                <tr>
-                    <td class="active_cell">{{mapper.UnitGroup.DisplayName}}</td>
-                    <td>
-                        <select (change)="onSelectChange($event, i)">
-                            <option *ngFor="let unit of mapper.UnitGroup.Units" 
-                                [value]="unit.Name"
-                                [selected]="unit.Name === mapper.DisplayUnit.Name">
-                                {{unit.DisplayName}} ({{unit.DisplaySymbol}})
-                            </option>
-                        </select>
-                    </td>
-                </tr>
+<div class="container">
+    <table class="styled-table">
+        <tbody>
+            <tr>
+                <td class="active_cell">Language</td>
+            </tr>
+            <tr>
+                <td>
+                    <select (change)="onLanguageChange($event)">
+                        <option [selected]="settings.displayLanguage === 'Default'">Default</option>
+                        <option [selected]="settings.displayLanguage === 'German'">German</option>
+                    </select>
+                </td>
+            </tr>
+            <ng-container *ngFor="let mapper of settings.mappers; let i = index">
+                <ng-container *ngIf="mapper">
+                    <tr>
+                        <td class="active_cell">{{mapper.UnitGroup.DisplayName}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select (change)="onSelectChange($event, i)">
+                                <option *ngFor="let unit of mapper.UnitGroup.Units" [value]="unit.Name"
+                                    [selected]="unit.Name === mapper.DisplayUnit.Name">
+                                    {{unit.DisplayName}} ({{unit.DisplaySymbol}})
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="number" [(ngModel)]="mapper.RoundingDecimals" />
+                        </td>
+                    </tr>
+                </ng-container>
             </ng-container>
-        </ng-container>
-    </tbody>
-</table>
-<button (click) = "close()">Close</button>
+        </tbody>
+    </table>
+</div>
+<button (click)="close()">Close</button>

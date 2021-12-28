@@ -5,5 +5,6 @@ export interface IMapper {
     UnitGroup: UnitGroup,
     DefaultUnitName: string,
     DisplayUnit: IUnit,
-    ConvertedProperties: string[]
+    ConvertedProperties: string[],
+    RoundingDecimals: number
 }
